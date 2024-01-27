@@ -10,6 +10,7 @@ div.container {
   flex: 1;
   border-radius: 20px;
 
+  overflow: hidden;
   section {
     height: 100%;
     flex: 1;
@@ -80,7 +81,7 @@ div.days {
     }
   }
 }
-div.list {
+/* div.list {
   width: 50%;
   margin: 1rem auto;
   ul {
@@ -95,4 +96,4 @@ div.list {
       }
     }
   }
-}
+} */
