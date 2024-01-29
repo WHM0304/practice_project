@@ -34,6 +34,10 @@ div.container {
         div {
           padding: 1rem;
           border-bottom: 1px solid transparent;
+          &:nth-of-type(1) {
+            border-bottom: 5px solid white;
+          }
+
           p {
             color: #4e4e4e;
             display: inline-block;
