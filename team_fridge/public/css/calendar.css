@@ -32,11 +32,13 @@ div.container {
       }
       .list {
         div {
+          &:nth-of-type(1) {
+            p:hover {
+              cursor: inherit;
+            }
+          }
           padding: 1rem;
           border-bottom: 1px solid transparent;
-          &:nth-of-type(1) {
-            border-bottom: 5px solid white;
-          }
 
           p {
             color: #4e4e4e;
@@ -49,6 +51,9 @@ div.container {
           &:hover p {
             cursor: pointer;
             color: white;
+          }
+          &:nth-of-type(1) {
+            border-bottom: 5px solid white;
           }
         }
       }
