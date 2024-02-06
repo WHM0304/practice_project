@@ -11,6 +11,8 @@ import express from "express";
 import createError from "http-errors";
 import path from "path";
 import helmet from "helmet";
+import session from "express-session";
+import mysql from "mysql2/promise"; /** */
 
 // 3rd party lib modules
 import cookieParser from "cookie-parser";
@@ -19,7 +21,7 @@ import logger from "morgan";
 // import router modules
 import indexRouter from "../routes/index.js";
 import usersRouter from "../routes/users.js";
-import fidgeRouter from "../routes/fridge.js";
+import fridgeRouter from "../routes/fridge.js";
 import calendarRouter from "../routes/calendar.js";
 import alarmRouter from "../routes/alarm.js";
 import settingRouter from "../routes/setting.js";
@@ -44,13 +46,56 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join("public")));
 
-// router link enable, link connection
-app.use("/", indexRouter);
+app.use(
+  session({
+    key: "fridge",
+    secret: "wjdduscldrn@naver.com",
+    cookie: {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60,
+    },
+  })
+);
+
+// MySQL 연결 정보 //** */
+const pool = mysql.createPool({
+  host: "localhost",
+  port: "3306",
+  user: "root",
+  password: "!Biz8080",
+  database: "fridgedb",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+});
+// 클라이언트로부터의 POST 요청을 처리하는 라우트
+app.post("/saveToDatabase", async (req, res) => {
+  try {
+    const { content } = req.body; // 클라이언트가 보낸 데이터
+
+    // 데이터베이스에 데이터 삽입 쿼리 실행
+    const [rows, fields] = await pool.query("INSERT INTO tbl_shopping (s_name) VALUES (?)", [content]);
+
+    // 쿼리 실행 결과를 클라이언트로 응답
+    res.status(200).json({ success: true, message: "Data inserted successfully." });
+  } catch (error) {
+    console.error("Error inserting data:", error);
+    res.status(500).json({ success: false, message: "Failed to insert data." });
+  }
+});
+app.use((req, res, next) => {
+  res.locals = req.session;
+  next();
+});
+
 app.use("/users", usersRouter);
-app.use("/fridge", fidgeRouter);
+app.use("/fridge", fridgeRouter);
 app.use("/calendar", calendarRouter);
 app.use("/alarm", alarmRouter);
 app.use("/setting", settingRouter);
+
+// router link enable, link connection
+app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
