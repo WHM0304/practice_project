@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const div = document.querySelector("div.divBox");
   btn_update.addEventListener("click", () => {
     const p_num = div.dataset.food;
+
     document.location.href = `/fridge/${p_num}/update`;
   });
   btn_delete.addEventListener("click", () => {

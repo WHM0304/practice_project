@@ -11,8 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target.tagName === "LI") {
       const div = target.closest("UL");
       const p_num = div.dataset.food;
+
       // alert(p_num);
-      document.location.replace(`/fridge/${p_num}/fridge_detail`);
+      document.location.href = `/fridge/${p_num}/fridge_detail`;
     }
   });
 });

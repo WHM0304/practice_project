@@ -28,10 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // 일자 부분에 div value 값넣기
   const last = new Date(year.innerHTML, month.innerHTML, 0);
   const first = new Date(year.innerHTML, month.innerHTML - 1, 1);
-
-  for (let i = first.getDate(); i < last.getDate() + 1; i++) {
+  const get_first = first.getDay();
+  const get_last = last.getDate();
+  let index = 1;
+  for (let i = get_first; i < get_first + get_last; i++) {
     const target = document.querySelectorAll(".day div");
-    target[i].innerHTML = i;
+    target[i].innerHTML = index++;
   }
 
   // 달력 이전버튼 누를때 이벤트
@@ -92,31 +94,14 @@ document.addEventListener("DOMContentLoaded", () => {
   days.addEventListener("click", (e) => {
     const target = e.target;
 
-    let url = `/calendar/${[
-      year.innerHTML + "-" + month.innerHTML + "-" + target.innerHTML,
-    ]}/detail`;
+    let url = `/calendar/${[year.innerHTML + "-" + month.innerHTML + "-" + target.innerHTML]}/detail`;
 
-    if (
-      `${[month.innerHTML.length]}` === "2" &&
-      `${[target.innerHTML.length]}` === "1"
-    ) {
-      url = `/calendar/${[
-        year.innerHTML + "-" + month.innerHTML + "-0" + target.innerHTML,
-      ]}/detail`;
-    } else if (
-      `${[month.innerHTML.length]}` === "1" &&
-      `${[target.innerHTML.length]}` === "1"
-    ) {
-      url = `/calendar/${[
-        year.innerHTML + "-0" + month.innerHTML + "-0" + target.innerHTML,
-      ]}/detail`;
-    } else if (
-      `${[month.innerHTML.length]}` === "1" &&
-      `${[target.innerHTML.length]}` === "2"
-    ) {
-      url = `/calendar/${[
-        year.innerHTML + "-0" + month.innerHTML + "-" + target.innerHTML,
-      ]}/detail`;
+    if (`${[month.innerHTML.length]}` === "2" && `${[target.innerHTML.length]}` === "1") {
+      url = `/calendar/${[year.innerHTML + "-" + month.innerHTML + "-0" + target.innerHTML]}/detail`;
+    } else if (`${[month.innerHTML.length]}` === "1" && `${[target.innerHTML.length]}` === "1") {
+      url = `/calendar/${[year.innerHTML + "-0" + month.innerHTML + "-0" + target.innerHTML]}/detail`;
+    } else if (`${[month.innerHTML.length]}` === "1" && `${[target.innerHTML.length]}` === "2") {
+      url = `/calendar/${[year.innerHTML + "-0" + month.innerHTML + "-" + target.innerHTML]}/detail`;
     }
 
     if (target.innerText) {
