@@ -15,7 +15,7 @@ router.get(`/:day/detail`, async (req, res) => {
   });
 
   // return res.json(result);
-  return res.render("calendar/detail", { result: result });
+  return res.render("calendar/detail", { result: result, row: row });
 });
 
 export default router;

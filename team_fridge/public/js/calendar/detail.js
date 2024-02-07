@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   div_tag.addEventListener("click", (e) => {
     const target = e.target;
-    const p_num = div_tag.dataset.p_num;
+    const p_num = div_tag.dataset.p_seq;
 
     if (target.innerHTML) {
       return (document.location.href = `/fridge/${p_num}/fridge_detail`);

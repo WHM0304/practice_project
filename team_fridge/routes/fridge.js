@@ -1,6 +1,6 @@
 import express from "express";
 import DB from "../models/index.js";
-import { json } from "sequelize";
+
 const FRIDGE = DB.models.tbl_fridge;
 const PRODUCT = DB.models.tbl_product;
 const router = express.Router();
@@ -80,8 +80,7 @@ router.get("/shopmemo/:t_num/add", (req, res) => {
       const params = result.map((item) => {
         return [item.t_num, item.t_name, item.t_quan];
       });
-      const sql =
-        "INSERT INTO tbl_shopping(s_num, s_name, s_quan) " + " VALUES (?,?,?) ";
+      const sql = "INSERT INTO tbl_shopping(s_num, s_name, s_quan) " + " VALUES (?,?,?) ";
       dbConn.query(sql, params, (err, result) => {
         if (err) {
           const sql = "DELETE FROM tbl_shopping WHERE s_num = ?";
@@ -109,19 +108,22 @@ router.get("/shopmemo/save", (req, res) => {
 
 // ============================
 
-router.post("/add_fridge", (req, res) => {
+router.post("/add_fridge", async (req, res) => {
   const data = req.body;
+  // req.body.f_pseq = "1";
+  // return res.json(data);
   try {
     FRIDGE.create(data);
-    const FR = FRIDGE.findAll();
+    const FR = await FRIDGE.findAll();
     return res.redirect("/fridge/list_fridge");
   } catch (error) {
     return res.json(error);
   }
 });
 
-router.get("/fridge_list", (req, res) => {
-  const result = PRODUCT.findAll();
+router.get("/fridge_list", async (req, res) => {
+  const result = await PRODUCT.findAll();
+  // return res.json(result);
 
   return res.render("fridge/fridge_list", { food: result });
 });
@@ -189,8 +191,7 @@ router.post("/:p_num/update", (req, res) => {
   const p_date = req.body.p_date;
   const p_quan = req.body.p_quan;
   const params = [p_exdate, p_date, p_quan, p_num];
-  const sql =
-    " UPDATE tbl_food SET p_exdate = ? , p_date = ? , p_quan = ? WHERE p_num = ? ";
+  const sql = " UPDATE tbl_food SET p_exdate = ? , p_date = ? , p_quan = ? WHERE p_num = ? ";
   dbConn.query(sql, params, (err, result) => {
     if (err) {
       return res.json(err);
