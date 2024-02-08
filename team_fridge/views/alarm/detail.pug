@@ -5,25 +5,25 @@ block content
       script(src="/js/detail.js")
       div.body
         section 
-          each item in result   
-            div.divBox(data-p_num= `${item.p_num}`)
-              div.detail
-                strong 식품설명
-                span=item.p_name
-              div.detail
-                strong 등록날짜
-                span=item.p_date
-              div.detail
-                strong 유통기한
-                span=item.p_exdate
-              div.detail
-                strong 저장방법
-                span
-              div.detail
-                strong 수량
-                span=item.p_quan
-                      
-              div.btnBox(data-p_num= `${item.p_num}`)
-                button.update(data-p_num= `${item.p_num}`) 수정
-                button.delete(data-p_num= `${item.p_num}`) 삭제
-                button.list 목록으로
+            
+          div.divBox(data-p_seq= `${result.p_seq}`)
+            div.detail
+              strong 식품설명
+              span=result.p_name
+            div.detail
+              strong 등록날짜
+              span=result.p_date
+            div.detail
+              strong 유통기한
+              span=result.p_exdate
+            div.detail
+              strong 저장방법
+              span
+            div.detail
+              strong 수량
+              span=result.p_quan
+                    
+            div.btnBox(data-p_num= `${result.p_num}`)
+              button.update(data-p_num= `${result.p_num}`) 수정
+              button.delete(data-p_num= `${result.p_num}`) 삭제
+              button.list 목록으로

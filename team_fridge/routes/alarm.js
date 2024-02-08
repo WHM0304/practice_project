@@ -1,17 +1,12 @@
 import express from "express";
-import DB from "../config/mysql.js";
+import DB from "../models/index.js";
 const router = express.Router();
-const dbConn = DB.init();
+const FRIDGE = DB.models.tbl_fridge;
+const PRODUCT = DB.models.tbl_product;
 
-router.get("/", (req, res) => {
-  const sql = " SELECT * FROM tbl_food ";
-  dbConn.query(sql, (err, result) => {
-    if (err) {
-      return res.json(err);
-    } else {
-      return res.render("alarm/alarm.pug", { result: result });
-    }
-  });
+router.get("/", async (req, res) => {
+  const result = await PRODUCT.findAll();
+  return res.render("alarm/alarm.pug", { result: result });
 });
 
 // router.get("/:foodName/detail", async (req, res) => {
@@ -23,56 +18,36 @@ router.get("/", (req, res) => {
 //     return res.json(error);
 //   }
 // });
-router.get("/:p_num/detail", (req, res) => {
-  const p_num = req.params.p_num;
-  const sql = " SELECT * FROM tbl_food WHERE p_num = ? ";
-  const params = [p_num];
-  dbConn.query(sql, params, (err, result) => {
-    if (err) {
-      return res.json(err);
-    } else {
-      return res.render("alarm/detail", { result: result });
-    }
-  });
+router.get("/:p_seq/detail", async (req, res) => {
+  const p_seq = req.params.p_seq;
+
+  try {
+    const result = await PRODUCT.findByPk(p_seq);
+
+    return res.render("alarm/detail", { result: result });
+  } catch (error) {}
 });
 
-router.get("/:p_num/delete", (req, res) => {
+router.get("/:p_num/delete", async (req, res) => {
   const p_num = req.params.p_num;
-  const sql = " DELETE FROM tbl_food WHERE p_num = ? ";
-  dbConn.query(sql, [p_num], (err, result) => {
-    if (err) {
-      return res.json(err);
-    } else {
-      return res.redirect("/alarm");
-    }
-  });
+  try {
+    const _delete = PRODUCT.destroy({ where: { p_seq: p_num } });
+    return res.redirect("/alarm");
+  } catch (error) {}
 });
 
-router.get("/:p_num/update", (req, res) => {
+router.get("/:p_num/update", async (req, res) => {
   const p_num = req.params.p_num;
-  const sql = " SELECT * FROM tbl_food WHERE p_num = ? ";
-  dbConn.query(sql, [p_num], (err, result) => {
-    if (err) {
-      return res.json(err);
-    } else {
-      return res.render("fridge/add_food", { food: result[0] });
-    }
-  });
+  const result = await PRODUCT.findByPk(p_num);
+  return res.render("fridge/add_food", { food: result });
+  // return res.json(result);
 });
-router.post("/:p_num/update", (req, res) => {
+router.post("/:p_num/update", async (req, res) => {
   const p_num = req.params.p_num;
-  const p_exdate = req.body.p_exdate;
-  const p_date = req.body.p_date;
-  const p_quan = req.body.p_quan;
-  const params = [p_exdate, p_date, p_quan, p_num];
-  const sql = " UPDATE tbl_food SET p_exdate = ? , p_date = ? , p_quan = ? WHERE p_num = ? ";
-  dbConn.query(sql, params, (err, result) => {
-    if (err) {
-      return res.json(err);
-    } else {
-      return res.redirect(`/alarm/${p_num}/detail`);
-    }
-  });
+  const data = req.body;
+  const update = await PRODUCT.update(data, { where: { p_seq: p_num } });
+
+  return res.redirect(`/alarm/${p_num}/detail`);
 });
 
 export default router;

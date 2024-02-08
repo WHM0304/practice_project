@@ -1,5 +1,4 @@
-import _sequelize from "sequelize";
-const { Model } = _sequelize;
+import { Model } from "sequelize";
 
 export default class tbl_shopping extends Model {
   static init(sequelize, DataTypes) {
@@ -18,6 +17,10 @@ export default class tbl_shopping extends Model {
         s_quan: {
           type: DataTypes.INTEGER,
           allowNull: false,
+        },
+        s_ox: {
+          type: DataTypes.INTEGER,
+          allowNull: true,
         },
       },
       {

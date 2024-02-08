@@ -1,6 +1,4 @@
-import _sequelize from "sequelize";
-const { Model } = _sequelize;
-
+import { Model } from "sequelize";
 export default class tbl_product extends Model {
   static init(sequelize, DataTypes) {
     return super.init(
@@ -10,6 +8,14 @@ export default class tbl_product extends Model {
           type: DataTypes.INTEGER,
           allowNull: false,
           primaryKey: true,
+        },
+        p_fseq: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          references: {
+            model: "tbl_fridge",
+            key: "f_seq",
+          },
         },
         p_name: {
           type: DataTypes.STRING(125),
@@ -27,6 +33,10 @@ export default class tbl_product extends Model {
           type: DataTypes.STRING(12),
           allowNull: false,
         },
+        p_memo: {
+          type: DataTypes.STRING(125),
+          allowNull: true,
+        },
       },
       {
         sequelize,
@@ -38,6 +48,11 @@ export default class tbl_product extends Model {
             unique: true,
             using: "BTREE",
             fields: [{ name: "p_seq" }],
+          },
+          {
+            name: "FK_PSEQ",
+            using: "BTREE",
+            fields: [{ name: "p_fseq" }],
           },
         ],
       }

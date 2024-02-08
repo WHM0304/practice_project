@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const target = e.target;
     if (target.tagName === "TD") {
       const paTr = target.closest("TR");
-      const foodNum = paTr.dataset.p_num;
+      const foodNum = paTr.dataset.p_seq;
       console.log(foodNum);
       // document.location.href = "alarm/detail";
 

@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
   if (!fridge) {
     res.render("index", { message: "냉장고를 추가하세요!" });
   } else if (fridge) {
-    res.render("fridge/list_fridge", { FR: FRIDGE });
+    res.render("fridge/add");
   }
 });
 

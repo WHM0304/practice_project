@@ -10,22 +10,6 @@ export default class tbl_fridge extends Model {
           allowNull: false,
           primaryKey: true,
         },
-        f_pseq: {
-          type: DataTypes.INTEGER,
-          allowNull: true,
-          references: {
-            model: "tbl_product",
-            key: "p_seq",
-          },
-        },
-        f_sseq: {
-          type: DataTypes.INTEGER,
-          allowNull: true,
-          references: {
-            model: "tbl_shopping",
-            key: "s_seq",
-          },
-        },
         f_name: {
           type: DataTypes.STRING(10),
           allowNull: false,
@@ -42,6 +26,14 @@ export default class tbl_fridge extends Model {
           type: DataTypes.STRING(255),
           allowNull: true,
         },
+        f_image_name: {
+          type: DataTypes.STRING(255),
+          allowNull: true,
+        },
+        f_image_origin_name: {
+          type: DataTypes.STRING(255),
+          allowNull: true,
+        },
       },
       {
         sequelize,
@@ -53,16 +45,6 @@ export default class tbl_fridge extends Model {
             unique: true,
             using: "BTREE",
             fields: [{ name: "f_seq" }],
-          },
-          {
-            name: "FK_SSEQ",
-            using: "BTREE",
-            fields: [{ name: "f_sseq" }],
-          },
-          {
-            name: "FK_PSEQ",
-            using: "BTREE",
-            fields: [{ name: "f_pseq" }],
           },
         ],
       }
