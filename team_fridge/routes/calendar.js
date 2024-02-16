@@ -2,9 +2,11 @@ import express from "express";
 import DB from "../models/index.js";
 const router = express.Router();
 const PRODUCT = DB.models.tbl_product;
-router.get("/", (req, res) => {
-  const result = PRODUCT.findAll();
+router.get("/", async (req, res) => {
+  const result = await PRODUCT.findAll();
+
   return res.render("./calendar/calendar.pug", { result: result });
+  // return res.json({ result });
 });
 
 router.get(`/:day/detail`, async (req, res) => {

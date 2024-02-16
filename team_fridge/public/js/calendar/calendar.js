@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const days = document.querySelector("div.days");
   const prev = document.querySelector(".prev");
   const next = document.querySelector(".next");
-  const day_all = document.querySelectorAll("div.day");
   const date = new Date();
 
   const year = document.querySelector("#year");
@@ -94,19 +93,28 @@ document.addEventListener("DOMContentLoaded", () => {
   days.addEventListener("click", (e) => {
     const target = e.target;
 
-    let url = `/calendar/${[year.innerHTML + "-" + month.innerHTML + "-" + target.innerHTML]}/detail`;
+    // let url = `/calendar/${[year.innerHTML + "-" + month.innerHTML + "-" + target.innerHTML]}/detail`;
 
-    if (`${[month.innerHTML.length]}` === "2" && `${[target.innerHTML.length]}` === "1") {
-      url = `/calendar/${[year.innerHTML + "-" + month.innerHTML + "-0" + target.innerHTML]}/detail`;
-    } else if (`${[month.innerHTML.length]}` === "1" && `${[target.innerHTML.length]}` === "1") {
-      url = `/calendar/${[year.innerHTML + "-0" + month.innerHTML + "-0" + target.innerHTML]}/detail`;
-    } else if (`${[month.innerHTML.length]}` === "1" && `${[target.innerHTML.length]}` === "2") {
-      url = `/calendar/${[year.innerHTML + "-0" + month.innerHTML + "-" + target.innerHTML]}/detail`;
-    }
+    // if (`${[month.innerHTML.length]}` === "2" && `${[target.innerHTML.length]}` === "1") {
+    //   url = `/calendar/${[year.innerHTML + "-" + month.innerHTML + "-0" + target.innerHTML]}/detail`;
+    // } else if (`${[month.innerHTML.length]}` === "1" && `${[target.innerHTML.length]}` === "1") {
+    //   url = `/calendar/${[year.innerHTML + "-0" + month.innerHTML + "-0" + target.innerHTML]}/detail`;
+    // } else if (`${[month.innerHTML.length]}` === "1" && `${[target.innerHTML.length]}` === "2") {
+    //   url = `/calendar/${[year.innerHTML + "-0" + month.innerHTML + "-" + target.innerHTML]}/detail`;
+    // }
 
-    if (target.innerText) {
-      //  document.location.href = `/calendar/${[year.innerHTML + "-" + month.innerHTML + "-" + target.innerHTML]}/detail`;
-      document.location.href = url;
-    }
+    // if (target.innerText) {
+    //   //  document.location.href = `/calendar/${[year.innerHTML + "-" + month.innerHTML + "-" + target.innerHTML]}/detail`;
+    //   document.location.href = url;
+    // }
   });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  // 음식이 있을경우에 표시하기
+  const year = document.querySelector("#year").innerHTML;
+  const month = document.querySelector("#month").innerHTML;
+  const day = document.querySelector("div.day").innerHTML;
+  const days = document.querySelector("div.days");
+  const data = days.dataset.data;
 });
