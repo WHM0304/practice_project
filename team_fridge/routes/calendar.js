@@ -1,14 +1,10 @@
 import express from "express";
 import DB from "../models/index.js";
-import moment from "moment";
-
 const router = express.Router();
 const PRODUCT = DB.models.tbl_product;
-router.get("/", async (req, res) => {
-  const today = moment().format("YYYY-MM-DD");
-  const result = await PRODUCT.findAll({ order: [["p_date", "ASC"]] });
+router.get("/", (req, res) => {
+  const result = PRODUCT.findAll();
   return res.render("./calendar/calendar.pug", { result: result });
-  // return res.json(result);
 });
 
 router.get(`/:day/detail`, async (req, res) => {

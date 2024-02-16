@@ -15,10 +15,12 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
+  user-select: none;
 }
 
 /* 일련번호 숨기기 */
-td.t_num {
+td.s_ox,
+td.s_seq {
   display: none;
 }
 
@@ -59,9 +61,47 @@ table.cartlist {
 
   /*border: 1px solid red;*/
 }
+tr.cart {
+  &:hover {
+    background-color: inherit;
+  }
+}
 td {
   padding: 12px 16px;
   text-align: center;
+}
+tr.nocheck {
+  /* color: #858585; */
+  td.buy {
+    color: #a7cba2;
+  }
+  /* td.delete {
+    color: red;
+  } */
+}
+tr.check {
+  color: #858585;
+  background-color: #ddd;
+  :nth-of-type(3) {
+    text-decoration: line-through;
+  }
+}
+
+tr.check,
+tr.nocheck {
+  td {
+    padding: 12px 16px;
+    text-align: center;
+    &:nth-of-type(n) {
+      min-width: 10px;
+      max-width: 10px;
+      overflow: hidden;
+    }
+    &:nth-of-type(3) {
+      min-width: 100px;
+      max-width: 100px;
+    }
+  }
 }
 tr {
   /* border: 1px solid red; */
@@ -85,34 +125,55 @@ section.box {
   justify-content: flex-start;
 }
 
+div.listbox {
+  overflow: auto;
+  /* border: 1px solid red; */
+
+  border-radius: 15px;
+}
 button,
 div {
   text-align: center;
   /*border: 1px solid red;*/
-  margin: 10px;
+  margin: 10px 5px;
   .box {
     display: flex;
     justify-content: center;
   }
 
   .amount {
-    display: flex;
-    text-align: right;
+    /* display: flex; */
+    /* text-align: right; */
+    .plus {
+      width: 22px;
+      height: 20px;
+      padding-bottom: 2px;
+    }
+    .minus {
+      width: 22px;
+      height: 20px;
+      padding-bottom: 2px;
+    }
   }
 }
 
 div.name {
-  width: 50%;
+  width: 40%;
   input {
     height: 2rem;
   }
 }
 div.amount {
   height: 2rem;
-  width: 30%;
+  width: 20%;
+
   display: flex;
   /* display: inline-block; */
   white-space: nowrap;
+
+  input {
+    min-width: 20px;
+  }
 
   div {
     border: none;
@@ -151,15 +212,13 @@ div.btn_box {
     border: none;
   }
   button.delete:hover {
-    background-color: red;
+    /* background-color: red; */
     border: none;
   }
 }
 
 .cartlist {
   width: 70%;
-  max-height: 300px; /* 적절한 높이 설정 */
-  overflow: auto; /* 수직 스크롤 설정 */
 }
 button.addmemo {
   cursor: pointer;
@@ -172,4 +231,8 @@ button.addmemo {
   &:hover {
     background-color: #858585;
   }
+}
+
+span {
+  display: none;
 }

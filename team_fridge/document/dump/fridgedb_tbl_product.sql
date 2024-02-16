@@ -24,11 +24,15 @@ DROP TABLE IF EXISTS `tbl_product`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tbl_product` (
   `p_seq` int NOT NULL AUTO_INCREMENT,
+  `p_fseq` int NOT NULL,
   `p_name` varchar(125) NOT NULL,
   `p_exdate` varchar(12) NOT NULL,
   `p_quan` int NOT NULL,
   `p_date` varchar(12) NOT NULL,
-  PRIMARY KEY (`p_seq`)
+  `p_memo` varchar(125) DEFAULT NULL,
+  PRIMARY KEY (`p_seq`),
+  KEY `FK_PSEQ` (`p_fseq`),
+  CONSTRAINT `FK_PSEQ` FOREIGN KEY (`p_fseq`) REFERENCES `tbl_fridge` (`f_seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -50,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-05 13:32:35
+-- Dump completed on 2024-02-08 11:02:43

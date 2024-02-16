@@ -1,19 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const btn_add = document.querySelector("btn.add");
-  // const food_detail = document.querySelector("div.");
+  const btn_add = document.querySelector("button.btn_add");
+  const btn_delete = document.querySelector("button.btn_delete");
+  const food_box = document.querySelector("div.food_box");
 
   btn_add.addEventListener("click", () => {
-    document.location.href = "/fridge/add_food";
+    const f_seq = btn_add.dataset.food;
+    document.location.href = `/fridge/${f_seq}/add_food`;
   });
-  const food_box = document.querySelector("div.food_box");
+  btn_delete.addEventListener("click", () => {
+    const f_seq = btn_delete.dataset.num;
+    document.location.href = `/fridge/${f_seq}/fridge_delete`;
+  });
   food_box.addEventListener("click", (e) => {
     const target = e.target;
     if (target.tagName === "LI") {
-      const div = target.closest("UL");
-      const p_num = div.dataset.food;
-
+      const box = target.closest("UL");
+      const p_seq = box.dataset.food;
       // alert(p_num);
-      document.location.href = `/fridge/${p_num}/fridge_detail`;
+      document.location.replace(`/fridge/${p_seq}/fridge_detail`);
     }
   });
 });

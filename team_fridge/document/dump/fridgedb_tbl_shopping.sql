@@ -26,6 +26,7 @@ CREATE TABLE `tbl_shopping` (
   `s_seq` int NOT NULL AUTO_INCREMENT,
   `s_name` varchar(125) NOT NULL,
   `s_quan` int NOT NULL,
+  `s_ox` int DEFAULT NULL,
   PRIMARY KEY (`s_seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -48,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-05 13:32:35
+-- Dump completed on 2024-02-08 11:02:43

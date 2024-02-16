@@ -5,6 +5,8 @@ extends ../layout_home
 block content
     link(rel="stylesheet", href="/css/calendar.css")
     script(src="/js/calendar/calendar.js")
+    link(rel="stylesheet", href="/css/thema/calender_thema.css")
+    script(src="/js/setting/setting_thema.js")
     div.container
         section
             div.date
@@ -20,7 +22,7 @@ block content
                 div thu
                 div fri
                 div sat
-            div.days(data-date = result)
+            div.days
                 
                    
             

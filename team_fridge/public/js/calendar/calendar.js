@@ -91,36 +91,22 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // day 부분을 눌렀을때 디테일 화면으로 전환
-  // days.addEventListener("click", (e) => {
-  //   const target = e.target;
-
-  //   let url = `/calendar/${[year.innerHTML + "-" + month.innerHTML + "-" + target.innerHTML]}/detail`;
-
-  //   if (`${[month.innerHTML.length]}` === "2" && `${[target.innerHTML.length]}` === "1") {
-  //     url = `/calendar/${[year.innerHTML + "-" + month.innerHTML + "-0" + target.innerHTML]}/detail`;
-  //   } else if (`${[month.innerHTML.length]}` === "1" && `${[target.innerHTML.length]}` === "1") {
-  //     url = `/calendar/${[year.innerHTML + "-0" + month.innerHTML + "-0" + target.innerHTML]}/detail`;
-  //   } else if (`${[month.innerHTML.length]}` === "1" && `${[target.innerHTML.length]}` === "2") {
-  //     url = `/calendar/${[year.innerHTML + "-0" + month.innerHTML + "-" + target.innerHTML]}/detail`;
-  //   }
-
-  //   if (target.innerText) {
-  //     //  document.location.href = `/calendar/${[year.innerHTML + "-" + month.innerHTML + "-" + target.innerHTML]}/detail`;
-  //     document.location.href = url;
-  //   }
-  // });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const div = document.querySelector("div.days");
-  const day = div.querySelector("div.day div");
-  const data = div.dataset.date;
-
-  div.addEventListener("click", (e) => {
+  days.addEventListener("click", (e) => {
     const target = e.target;
 
-    if (target.innerHTML) {
-      alert(data);
+    let url = `/calendar/${[year.innerHTML + "-" + month.innerHTML + "-" + target.innerHTML]}/detail`;
+
+    if (`${[month.innerHTML.length]}` === "2" && `${[target.innerHTML.length]}` === "1") {
+      url = `/calendar/${[year.innerHTML + "-" + month.innerHTML + "-0" + target.innerHTML]}/detail`;
+    } else if (`${[month.innerHTML.length]}` === "1" && `${[target.innerHTML.length]}` === "1") {
+      url = `/calendar/${[year.innerHTML + "-0" + month.innerHTML + "-0" + target.innerHTML]}/detail`;
+    } else if (`${[month.innerHTML.length]}` === "1" && `${[target.innerHTML.length]}` === "2") {
+      url = `/calendar/${[year.innerHTML + "-0" + month.innerHTML + "-" + target.innerHTML]}/detail`;
+    }
+
+    if (target.innerText) {
+      //  document.location.href = `/calendar/${[year.innerHTML + "-" + month.innerHTML + "-" + target.innerHTML]}/detail`;
+      document.location.href = url;
     }
   });
 });

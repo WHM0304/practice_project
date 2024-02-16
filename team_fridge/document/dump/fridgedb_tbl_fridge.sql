@@ -24,17 +24,13 @@ DROP TABLE IF EXISTS `tbl_fridge`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tbl_fridge` (
   `f_seq` int NOT NULL AUTO_INCREMENT,
-  `f_pseq` int DEFAULT NULL,
-  `f_sseq` int DEFAULT NULL,
   `f_name` varchar(10) NOT NULL,
   `f_div` varchar(4) DEFAULT NULL,
   `f_memo` varchar(125) DEFAULT NULL,
   `f_photo` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`f_seq`),
-  KEY `FK_SSEQ` (`f_sseq`),
-  KEY `FK_PSEQ` (`f_pseq`),
-  CONSTRAINT `FK_PSEQ` FOREIGN KEY (`f_pseq`) REFERENCES `tbl_product` (`p_seq`),
-  CONSTRAINT `FK_SSEQ` FOREIGN KEY (`f_sseq`) REFERENCES `tbl_shopping` (`s_seq`)
+  `f_image_name` varchar(255) DEFAULT NULL,
+  `f_image_origin_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`f_seq`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -56,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-05 13:32:35
+-- Dump completed on 2024-02-08 11:02:43
