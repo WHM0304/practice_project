@@ -1,20 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
-  F_INDEX = {
-    F_PHOTO: 0,
-    F_DIV: 1,
-    F_NAME: 2,
-    F_MEMO: 3,
-  };
-
-  const f_name = document.querySelector("#f_name");
-  const f_memo = document.querySelector("#f_memo");
-  const form = document.querySelector("form.add");
-  const f_btn = document.querySelector("#f_btn");
-  const error_divs = document.querySelectorAll("div.add.error");
   const select_box = document.querySelector("div.select");
   const fresh_btn = document.querySelector("#fresh");
   const cold_btn = document.querySelector("#cold");
   const out_btn = document.querySelector("#out");
+  const add_btn = document.querySelector("#f_btn");
+  const err_box = document.querySelectorAll("div.err");
+  const input_name = document.querySelector("#f_name");
+  const input_div = document.querySelector("input.update_div");
+  const form = document.querySelector("form.add");
+
+  const F_INDEX = {
+    F_DIV: 0,
+    F_NAME: 1,
+  };
+
+  add_btn?.addEventListener("click", async () => {
+    err_box.forEach((item) => (item.innerHTML = ""));
+    if (input_div.value === "") {
+      err_box[F_INDEX.F_DIV].innerHTML = "* 어떤 냉장고인지 선택해주세요";
+      input_div.select();
+      return false;
+    }
+    if (input_name.value === "") {
+      err_box[F_INDEX.F_NAME].innerHTML = "* 냉장고 이름은 반드시 입력해주세요";
+      input_name.select();
+      return false;
+    }
+    form.submit();
+  });
 
   const changeBack = (e) => {
     const target = e.target;
@@ -30,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   cold_btn.addEventListener("click", changeBack);
   out_btn.addEventListener("click", changeBack);
 
-  select_box.addEventListener("click", (e) => {
+  select_box?.addEventListener("click", (e) => {
     const target = e.target;
     const select_input = document.querySelector("#selecttem");
 
@@ -45,14 +58,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  f_btn.addEventListener("click", () => {
-    error_divs.forEach((item) => item.innerHTML);
-    if (!f_name.value) {
-      error_divs[F_INDEX.F_NAME].innerHTML = "* 냉장고 이름을 입력하세요";
-      f_name.select();
-      return false;
+  const div = document.querySelector("input.update_div");
+  window.addEventListener("load", () => {
+    if (div.value === "냉장고") {
+      fresh_btn.style.backgroundColor = "#ccc";
+    } else if (div.value === "냉동고") {
+      cold_btn.style.backgroundColor = "#ccc";
+    } else if (div.value === "실외") {
+      out_btn.style.backgroundColor = "#ccc";
     }
-    form.submit();
   });
 
   const imagePreView = (e) => {
@@ -65,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     fileReader.readAsDataURL(file);
   };
-  const img_add = document.querySelector("img.img_add");
+
   const input_img = document.querySelector("input.photo");
   const div_img = document.querySelector("div.photo");
 
@@ -78,5 +92,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
   input_img?.addEventListener("change", imagePreView);
 });
-
-document.addEventListener("DOMContentLoaded", () => {});

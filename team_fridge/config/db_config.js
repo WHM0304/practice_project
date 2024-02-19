@@ -1,7 +1,7 @@
 export default {
   development: {
     username: "root",
-    password: "!Biz8080",
+    password: "Dga06184##",
     database: "fridgeDB",
     host: "127.0.0.1",
     dialect: "mysql",

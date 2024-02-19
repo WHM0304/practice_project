@@ -1,6 +1,7 @@
 import express from "express";
 import DB from "../models/index.js";
 import { upLoad } from "../modules/file_upload.js";
+
 const FRIDGE = DB.models.tbl_fridge;
 const FOOD = DB.models.tbl_product;
 const SHOPPING = DB.models.tbl_shopping;
@@ -20,6 +21,36 @@ router.get("/list_fridge", async (req, res) => {
   return res.render("fridge/list_fridge", { FR: rows });
 });
 
+router.get("/:f_seq/fridge_update", async (req, res) => {
+  const f_seq = req.params.f_seq;
+
+  try {
+    const row = await FRIDGE.findByPk(f_seq);
+    return res.render("fridge/add_fridge", { FR: row });
+  } catch (error) {
+    return res.json(error);
+  }
+});
+router.post("/:f_seq/fridge_update", upLoad.single("f_photo"), async (req, res) => {
+  const f_seq = req.params.f_seq;
+  const data = req.body;
+  const file = req.file;
+  if (file) {
+    req.body.f_image_name = file.filename;
+    req.body.f_image_origin_name = file.originalname;
+  }
+
+  try {
+    await FRIDGE.update(data, {
+      where: { f_seq: f_seq },
+    });
+    console.log(FRIDGE);
+    return res.redirect("/");
+  } catch (error) {
+    return res.json(error);
+  }
+});
+
 router.post("/add_fridge", upLoad.single("f_photo"), async (req, res) => {
   const data = req.body;
   const file = req.file;
@@ -29,7 +60,6 @@ router.post("/add_fridge", upLoad.single("f_photo"), async (req, res) => {
   }
   try {
     await FRIDGE.create(data);
-    // return res.json(data);
     return res.redirect("/fridge/list_fridge");
   } catch (error) {
     return res.json(error);
@@ -45,7 +75,6 @@ router.get("/:f_seq/fridge_list", async (req, res) => {
         as: "F_음식",
       },
     });
-    // return res.json(rows);
     return res.render("fridge/fridge_list", { FOOD: rows });
   } catch (error) {
     res.json(error);
@@ -77,21 +106,15 @@ router.get("/:p_seq/delete", async (req, res) => {
   }
 });
 
-router.get("/:p_fseq/fridge_delete", async (req, res) => {
-  const p_fseq = req.params.p_fseq;
-  // const row = await FOOD.findAll({
-  //     include: [{ model: FRIDGE, as: 'F_냉장고' }],
-  //     where: { p_fseq },
-  // });
-  // console.log(fridge_num);
-  // return res.json(fridge_num);
-  // const f_name = row.f_name;
+router.get("/:f_seq/fridge_delete", async (req, res) => {
+  const f_seq = req.params.f_seq;
   try {
+    await FOOD.destroy({
+      where: { p_fseq: f_seq },
+    });
     await FRIDGE.destroy({
       where: { f_seq },
     });
-    // await FRIDGE.destroy(fridge_num);
-    // return res.json(fridge_num);
     return res.redirect("/fridge/list_fridge");
   } catch (error) {
     return res.json(error);
@@ -101,18 +124,13 @@ router.get("/:p_fseq/fridge_delete", async (req, res) => {
 router.get("/:f_seq/add_food", async (req, res) => {
   const f_seq = req.params.f_seq;
   const row = await FRIDGE.findByPk(f_seq);
-
-  // const rows = await FOOD.findAll({
-  //     include: [{ model: FRIDGE, as: 'F_냉장고' }],
-  // });
-  // return res.json(row);
   return res.render("fridge/add_food", { food: row });
 });
 
 router.post("/:f_seq/add_food", async (req, res) => {
   const f_seq = req.params.f_seq;
   const data = req.body;
-  const rows = await FRIDGE.findByPk(f_seq, {
+  await FRIDGE.findByPk(f_seq, {
     include: {
       model: FOOD,
       as: "F_음식",
@@ -222,9 +240,30 @@ router.get("/shopmemo/:s_seq//add", async (req, res) => {
 });
 
 router.get("/shopmemo/save", async (req, res) => {
-  //어떻게 할지까먹어서 나중에 생각나면 할것.
-  // 저장버튼을 누르면 쇼핑테이블에있는 데이터들이 자동으로 냉장고 테이블과 연동됨.
-  res.redirect("/fridge/shopmemo");
+  // return res.render("fridge/shopmemo", { SHOPPING: rows, SHOPPING2: rows2 });
+
+  const rows = await FRIDGE.findAll();
+  return res.render("fridge/shopsave", { FR: rows });
+});
+router.get("/shopmemo/:f_seq/save", async (req, res) => {
+  try {
+    const f_seq = req.params.f_seq;
+    await SHOPPING.update({ s_fseq: f_seq }, { where: { s_ox: 1 } });
+    const rows2 = await SHOPPING.findAll({ where: { s_ox: 1 } });
+    for (let item of rows2) {
+      // 각 항목의 데이터를 사용하여 FOOD 테이블에 새 항목 생성
+      await FOOD.create({
+        p_fseq: f_seq,
+        p_name: item.s_name,
+        p_quan: item.s_quan,
+      });
+    }
+    await SHOPPING.update({ s_ox: 0 }, { where: { s_ox: 1 } });
+    return res.redirect("/fridge/shopmemo");
+  } catch (error) {
+    return res.json(error);
+  }
 });
 // ============================
+
 export default router;

@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btn_box.addEventListener('click', (e) => {
         const target = e.target;
-        if (target.innerText === '냉장고 추가') {
+        if (target.innerText === '냉장고 추가 ') {
             document.location.href = '/fridge/add_fridge';
         }
-        if (target.innerText === '장바구니 추가') {
+        if (target.innerText === '장바구니 추가 ') {
             document.location.href = '/fridge/shopmemo';
         }
     });
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (target.tagName === 'IMG') {
             const ul = target.closest('UL');
             const f_seq = ul.dataset.num;
-            document.location.replace(`/fridge/${f_seq}/fridge_list`);
+            document.location.href = `/fridge/${f_seq}/fridge_list`;
         }
     });
 });
