@@ -43,7 +43,7 @@ div.container {
               color: white;
             }
           }
-          padding: 1rem;
+          padding: 0.5rem;
           border-bottom: 1px solid transparent;
 
           p {
@@ -180,6 +180,31 @@ div.product {
           }
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  div.box {
+    display: flex;
+    flex-direction: column;
+  }
+  div.list {
+    margin: 0;
+    div {
+      p {
+        margin: 0;
+        display: inline-block;
+        padding: 0;
+      }
+    }
+  }
+  #list {
+    p {
+      margin: 10px auto;
+      display: inline-block;
+      padding: 10px;
+      width: 25%;
     }
   }
 }
